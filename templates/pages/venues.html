@@ -1,0 +1,50 @@
+
+{% extends 'layouts/main.html' %}
+{% block title %}Fyyur | Venues{% endblock %}
+{% block content %}
+{% for venue in data %}
+<ul class="Venue">
+	{% for venue in data %}
+		<a href="/venues/{{ venue.id }}">
+		<li>
+			<i class="fas fa-music"> &ensp; </i>
+					<class="Venue">
+					<h8>{{ venue.name }} - {{ venue.city }}, {{ venue.state }}</h8>
+					<p></p><a href="/venues/{{ venue.name }}"><br></a>
+		</li>			
+	{% endfor %}
+		</a>
+</ul>		
+
+
+
+
+
+
+
+
+<!-- <h3>{{ venue.city }},{{ venue.state }}</h3>
+<h3>{{ venue.name }}</h3>
+<ul class="Venue">
+	{% for venue in data %}
+		<a href="/venues/{{ venue.id }}">
+					<li>
+					<i class="fas fa-music">
+					</i>
+					<div class="Venue">	
+					<h8>{{venue.name }},{{ venue.state}}</h8>
+					<a href="/venues/{{ venue.id }}"></a>
+					{% endfor %}	
+				</div>
+					</li>
+		</a>
+
+</ul>		
+{% endfor %}
+{% endblock %} -->
+
+	<!-- <ul>
+			{% for venue in data %}
+			<li>{{ venue.name }}</li><li>{{venue.id}}</li>
+			{% endfor %}
+		</ul> -->

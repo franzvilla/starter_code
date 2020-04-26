@@ -1,0 +1,15 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Fyyur | Artists{% endblock %}
+{% block content %}
+<ul class="Artist">
+	{% for artist in data %}
+	<li>
+		<a href="/artists/{{ artist.id }}">
+			<i class="fas fa-users"></i>
+			<class="Artist">
+				<h5>{{ artist.name }}</h5><br>
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}
