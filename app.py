@@ -155,13 +155,12 @@ def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
   
-  #shows = Shows.query.get(venue_id)
-  Shows = Shows.query.filter_by(id=id).first_or_404()
-  past_shows = list(filter(lambda x: x.start_time < datetime.today(), Shows.venue_name))
-  upcoming_shows = list(filter(lambda x: x.start_time > datetime.today(), Shows.venue_name))
+  venue_id = Shows.query.get(venue_id)
+  past_shows = list(filter(lambda x: x.start_time < datetime.today(), Shows.venue_id))
+  upcoming_shows = list(filter(lambda x: x.start_time > datetime.today(), Shows.venue_id))
 
-  past_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
-  upcoming_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
+  #past_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
+  #upcoming_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
 
   data = venue.venue_to_dictionary()
   
@@ -169,7 +168,8 @@ def show_venue(venue_id):
   data['past_shows_count'] = len(past_shows)
   
   #data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', venue=data())
+  return render_template('pages/show_venue.html', shows=Shows.query.all()
+  )
 
 
 '''
