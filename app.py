@@ -125,53 +125,48 @@ def search_venues():
   # TODO: implement search on artists with partial string search. Ensure it is case-insensitive.
   # seach for Hop should return "The Musical Hop".
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
-  #venue = Venue.query.filter(completed=True)
-  #Venue.query.filter_by(Venue.name.ilike('%{}%'.format(search_term))).all()
   '''
-  def search_venues():	
-  search_str = request.form.get('search_term')
-	venue_query = Venue.query.filter(Venue.name.ilike('%{}%'.format(search_str)))
-	venue_list = list(map(Venue.short, venue_query)) 
-	response = {
-	"count":len(venue_list),
-	"data": venue_list
-	}
-	return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
-  '''
+  Venue.query.filter_by(Venue.name.ilike('%{}%'.format(search_term))).all()
+  
+  search_term = request.form.get('search_term')
+  venue_name = Venue.query.filter(Venue.name.ilike('%{}%'.format(search_term))).all()
+  venue_list = list(map(Venue.short, venue_query)) 
+  response = {
+  "count":len(venue_list),
+  "data": venue_list
+  }
+  return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
 
   return render_template('pages/search_venues.html', results=Venue.query.filter_by(name=name), 
   search_term=request.form.get('search_term', ''))
-  '''response={
+  response={
     "count": 1,
     "data": [{
       "id": 2,
       "name": "The Dueling Pianos Bar",
       "num_upcoming_shows": 0,
     }]
-  }'''
-  
+  }
+'''
+
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
-  
+
   venue_id = Venue.query.get(Venue.id)
-  past_shows = list(filter(lambda x: x.start_time < datetime.today(), Venue.id))
-  upcoming_shows = list(filter(lambda x: x.start_time > datetime.today(), Venue.id))
-
-  #past_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
-  #upcoming_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
-
-  data = venue.venue_to_dictionary()
-  
-  data['past_shows'] = past_shows
-  data['past_shows_count'] = len(past_shows)
-  
-  #data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
+  data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
   return render_template('pages/show_venue.html', result=Venue.query.filter(Venue.id == venue_id))
 
+  #past_shows = list(filter(lambda x: x.start_time < datetime.today(), Venue.id))
+  #upcoming_shows = list(filter(lambda x: x.start_time > datetime.today(), Venue.id))
+  #past_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
+  #upcoming_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
+  #data = venue.venue_to_dictionary()
+  #data['past_shows'] = past_shows
+  #data['past_shows_count'] = len(past_shows)
 
-'''
+  '''
   data1={
     "id": 1,
     "name": "The Musical Hop",
@@ -249,10 +244,11 @@ def show_venue(venue_id):
     "past_shows_count": 1,
     "upcoming_shows_count": 1,
   }
-
+  
+ 
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
   return render_template('pages/show_venue.html', venue=data)
-'''
+  '''
 
 #  Create Venue
 #  ----------------------------------------------------------------
