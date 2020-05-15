@@ -154,10 +154,28 @@ def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
 
-  venue_id = Venue.query.get(Venue.id)
-  data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', result=Venue.query.filter(Venue.id == venue_id))
+  venue = Venue.query.filter(Venue.id == venue_id).one_or_none()
+  #past_shows, upcoming_shows
+  shows = Shows.query.filter(Shows.venue_id==venue_id).all()
+  past_shows =[]
+  upcoming_shows=[]
+  for show in shows:
+        date_time_str = show.start_time
+        date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+        if date_time_obj < datetime.now():
+              past_show = {"artist_image_link": show.artist.image_link, "artist_id": show.artist.id,
+              "artist_name":show.artist.name, "start_time": show.start_time} 
+              past_shows.append(past_show)                
+        else:
+              upcoming_show = {"artist_image_link": show.artist.image_link, "artist_id": show.artist.id,
+              "artist_name":show.artist.name, "start_time": show.start_time}
+              upcoming_shows.append(upcoming_show)
 
+  return render_template('pages/show_venue.html', venue=venue, upcoming_shows=upcoming_shows, past_shows=past_shows)
+  
+  #venue_id = Venue.query.get(Venue.id)
+  #data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
+  #return render_template('pages/show_venue.html', result=Venue.query.filter(Venue.id == venue_id))
   #past_shows = list(filter(lambda x: x.start_time < datetime.today(), Venue.id))
   #upcoming_shows = list(filter(lambda x: x.start_time > datetime.today(), Venue.id))
   #past_shows = list(filter(lambda x:  x.start_time < datetime.today(), Shows.artist_name))
