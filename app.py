@@ -4,6 +4,7 @@
 
 import json
 import dateutil.parser
+import datetime
 import babel
 import os
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -154,25 +155,43 @@ def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
 
+  '''
+  venue_query = Venue.query.get(venue_id)
+  if venue_query:
+      venue_name = Venue.name(venue_query)
+      current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+      new_shows_query = Show.query.options(db.joinedload(Show.Venue)).filter(Show.venue_id == venue_id).filter(Show.start_time > current_time).all()
+      new_show = list(map(Show.artist_details, new_shows_query))
+      venue_name["upcoming_shows"] = new_show
+      venue_name["upcoming_shows_count"] = len(new_show)
+      past_shows_query = Show.query.options(db.joinedload(Show.Venue)).filter(Show.venue_id == venue_id).filter(Show.start_time <= current_time).all()
+      past_shows = list(map(Show.artist_details, past_shows_query))
+      venue_name["past_shows"] = past_shows
+      venue_name["past_shows_count"] = len(past_shows)
+      # data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
+      return render_template('pages/show_venue.html', venue=venue_details)
+      return render_template('errors/404.html')
+  '''      
+
   venue = Venue.query.filter(Venue.id == venue_id).one_or_none()
   #past_shows, upcoming_shows
   shows = Shows.query.filter(Shows.venue_id==venue_id).all()
   past_shows =[]
   upcoming_shows=[]
   for show in shows:
-        date_time_str = show.start_time
+        date_time_str = Shows.start_time
         date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
         if date_time_obj < datetime.now():
-              past_show = {"artist_image_link": show.artist.image_link, "artist_id": show.artist.id,
-              "artist_name":show.artist.name, "start_time": show.start_time} 
+              past_show = {"artist_image_link": Shows.artist.image_link, "artist_id": Shows.artist.id,
+              "artist_name":Shows.artist.name, "start_time": Shows.start_time} 
               past_shows.append(past_show)                
         else:
-              upcoming_show = {"artist_image_link": show.artist.image_link, "artist_id": show.artist.id,
-              "artist_name":show.artist.name, "start_time": show.start_time}
+              upcoming_show = {"artist_image_link": Shows.artist.image_link, "artist_id": Shows.artist.id,
+              "artist_name":Shows.artist.name, "start_time": Shows.start_time}
               upcoming_shows.append(upcoming_show)
 
   return render_template('pages/show_venue.html', venue=venue, upcoming_shows=upcoming_shows, past_shows=past_shows)
-  
+
   #venue_id = Venue.query.get(Venue.id)
   #data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
   #return render_template('pages/show_venue.html', result=Venue.query.filter(Venue.id == venue_id))
@@ -184,7 +203,7 @@ def show_venue(venue_id):
   #data['past_shows'] = past_shows
   #data['past_shows_count'] = len(past_shows)
 
-  '''
+'''
   data1={
     "id": 1,
     "name": "The Musical Hop",
