@@ -15,6 +15,7 @@ import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -171,7 +172,8 @@ def show_venue(venue_id):
       # data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
       return render_template('pages/show_venue.html', venue=venue_details)
       return render_template('errors/404.html')
-  '''      
+  '''     
+
 
   venue = Venue.query.filter(Venue.id == venue_id).one_or_none()
   #past_shows, upcoming_shows
