@@ -182,7 +182,7 @@ def show_venue(venue_id):
   upcoming_shows=[]
   for show in shows:
         date_time_str = Shows.start_time
-        date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+        date_time_obj = datetime.strptime(str(date_time_str), "%Y-%m-%dT%H:%M:%S.%fZ")
         if date_time_obj < datetime.now():
               past_show = {"artist_image_link": Shows.artist.image_link, "artist_id": Shows.artist.id,
               "artist_name":Shows.artist.name, "start_time": Shows.start_time} 
