@@ -11,6 +11,7 @@ from flask import Flask, render_template, request, Response, flash, redirect, ur
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy import DateTime
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
@@ -83,7 +84,7 @@ class Shows(db.Model):
     artist_id = db.Column(db.Integer, nullable=False)
     artist_name = db.Column(db.String(120))
     artist_image_link = db.Column(db.String(500))
-    start_time = db.Column(db.String(120))
+    start_time = db.Column(db.DateTime(),nullable=False)
 
 db.create_all()
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
@@ -172,8 +173,7 @@ def show_venue(venue_id):
       # data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
       return render_template('pages/show_venue.html', venue=venue_details)
       return render_template('errors/404.html')
-  '''     
-
+  '''
 
   venue = Venue.query.filter(Venue.id == venue_id).one_or_none()
   #past_shows, upcoming_shows
@@ -182,7 +182,7 @@ def show_venue(venue_id):
   upcoming_shows=[]
   for show in shows:
         date_time_str = Shows.start_time
-        date_time_obj = datetime.strptime(str(date_time_str), "%Y-%m-%dT%H:%M:%S.%fZ")
+        date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
         if date_time_obj < datetime.now():
               past_show = {"artist_image_link": Shows.artist.image_link, "artist_id": Shows.artist.id,
               "artist_name":Shows.artist.name, "start_time": Shows.start_time} 
